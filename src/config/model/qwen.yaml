@@ -1,0 +1,9 @@
+name_or_path: Qwen/Qwen1.5-0.5B #Qwen/Qwen1.5-1.8B #
+tokenizer_name_or_path: null
+archive: null
+block_name: null
+
+policy_dtype: float32
+fsdp_policy_mp: null
+reference_dtype: float16
+

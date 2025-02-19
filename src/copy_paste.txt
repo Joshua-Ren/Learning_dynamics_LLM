@@ -1,0 +1,28 @@
+module load python/3.11 StdEnv/2023 cudacore/.12.2.2 arrow/14.0.0
+##source /home/joshua52/projects/def-dsuth/joshua52/env_iIWL/bin/activate
+source /home/joshua52/projects/def-dsuth/joshua52/env_llm/bin/activate
+accelerate config default
+#python -m pip install .
+
+
+virtualenv --no-download env_finetuning
+source /home/joshua52/projects/def-dsuth/joshua52/env_finetuning/bin/activate
+
+salloc --time=1:0:0 --account=rrg-dsuth --gres=gpu:v100l:4 --mem=40000M
+salloc --time=2:0:0 --account=rrg-dsuth --gres=gpu:v100l:1 --mem=32000M
+
+watch -n 1 sacct --format=jobid,jobname,partition,account,state,cputime,timelimit,exitcode -X
+
+python -u gen_inference_samples.py model=pythia410m exp_name=gen_inference_pythia410m max_length=400
+python -u gen_inference_samples.py model=pythia1b exp_name=gen_inference_pythia1b max_length=400
+python -u gen_inference_samples.py model=pythia14 exp_name=gen_inference_pythia14 max_length=400
+python -u gen_inference_samples.py model=pythia28 exp_name=gen_inference_pythia28 max_length=400
+
+
+python -u train.py loss=dpo loss.beta=0.1 model=pythia410m exp_name=testtest trainer=BasicTrainer n_epochs=4 debug=True
+
+
+python -u train.py loss=dpo loss.beta=0.1 pre_sft_steps=2000 model=pythia410m exp_name=dpo_pythia410m_sft2000 trainer=BasicTrainer n_epochs=4
+python -u train.py loss=dpo loss.beta=0.1 model=pythia1b exp_name=dpo_pythia1b_sft model.archive=sft_pythia1b_save trainer=BasicTrainer n_epochs=1
+
+python -u gen_inference_samples.py model=qwen18 model.archive=baseline_sft_qwen18 exp_name=eval_baseline_sft_qwen18
