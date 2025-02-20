@@ -3,7 +3,7 @@
 This repository is a reference implementation of [Learning Dynamics of LLM Finetuning](https://openreview.net/forum?id=tPNHOoZFl9&referrer=%5BAuthor%20Console%5D(%2Fgroup%3Fid%3DICLR.cc%2F2025%2FConference%2FAuthors%23your-submissions)) (ICLR 2025 Oral).
 
 ## TL;DR: 
-Focusing on the interaction between training samples, the paper studies different LLM finetuning mechanisms using a unified framework. Here are some takeaways.
+Focusing on the interaction between training samples, the paper studies different LLM finetuning mechanisms using a unified framework.
 
 #### About Learning Dynamics
 
@@ -21,7 +21,7 @@ However, this approximation relies on several assumptions, such as a relatively 
 Consequently, it effectively explains algorithms trained on off-policy samples using the 'teacher-forcing' method.
 
 2. The general principles could also apply to on-policy methods—or even RL-based approaches—but token-wise modeling is more suitable for them. We are currently exploring this direction, so please stay tuned.
-3. The experimental results align well with our analysis. However, while the squeezing effect is a primary factor, it is not the sole reason why off-policy DPO reduces overall confidence.
+3. The experimental results align well with our analysis. However, *while the squeezing effect is a primary factor, it is not the sole reason why off-policy DPO reduces overall confidence.*
    The interaction between positive and negative gradients is more complex, necessitating token-wise modeling. We are actively investigating this further — stay tuned.
 
 
@@ -40,9 +40,9 @@ The analysis not only provides a novel perspective of understanding LLM's finetu
 
 The src contains the code for all experiments in the paper, but running them might be annoying. 
 Sorry for not well organizing the code more systematically. 
-However, as the code is based on this repo and the official DPO repo, 
+However, as the code is based on [this repo](https://github.com/Shawn-Guo-CN/SFT_function_learning/tree/main) and the [official DPO repo](https://github.com/eric-mitchell/direct-preference-optimization), 
 it is easy for you to write your own code using your favorite framework. 
-The small experiments and probing dataset generation in the notebook are self-contained. 
+The small experiments and probing dataset generation in the [notebooks](https://github.com/Joshua-Ren/Learning_dynamics_LLM/tree/main/notebook) are self-contained. 
 Here is a [short document](https://weak-family-7e4.notion.site/Go-over-the-codebase-19c85a5295b8808ea13cf33f18ada4a8) for the code of this project, hope that will be helpful.
 
 # Reference
