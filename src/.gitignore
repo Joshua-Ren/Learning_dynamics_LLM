@@ -166,6 +166,5 @@ cython_debug/
 api_keys.txt
 api_base_url.txt
 *.bak
-data/
 api_secret_keys.txt
 *tmp*
