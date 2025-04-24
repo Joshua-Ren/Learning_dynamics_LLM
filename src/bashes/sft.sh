@@ -14,7 +14,7 @@ module load python/3.11 StdEnv/2023 cudacore/.12.2.2 arrow/14.0.0
 source /home/joshua52/projects/def-dsuth/joshua52/env_llm/bin/activate
 
 # 3. Go to the correct path
-cd /home/joshua52/projects/def-dsuth/joshua52/finetuning_dynamics
+cd /home/joshua52/projects/def-dsuth/joshua52/finetuning_dynamics/src
 
 #python -u train.py model=pythia28 exp_name=sft_pythia28_ep6 trainer=BasicTrainer n_epochs=6 n_examples=30000
 #python -u train.py model=qwen exp_name=sft_qwen05_ep10 trainer=BasicTrainer n_epochs=6 n_examples=30000

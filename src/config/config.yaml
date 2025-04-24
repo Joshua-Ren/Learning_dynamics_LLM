@@ -20,6 +20,8 @@ fsdp_port: null
 # which dataset(s) to train on; can pass a list like datasets=[hh,ultrafb]
 datasets: hh
 train_split: train_dpo
+train_using_prob: false
+fine_evaluation: true  # wired, looks current version always do fine_evaluation although false is given..., then just do it! don't take too much compute
 
 # which file we chose for training, we have "chosen" and "reject"
 train_supervise: chosen

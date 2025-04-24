@@ -14,7 +14,7 @@ module load python/3.10 StdEnv/2023 cudacore/.12.2.2 arrow/14.0.0
 source /home/joshua52/projects/def-dsuth/joshua52/env_llm/bin/activate
 
 # 3. Go to the correct path
-cd /home/joshua52/projects/def-dsuth/joshua52/finetuning_dynamics
+cd /home/joshua52/projects/def-dsuth/joshua52/finetuning_dynamics/src
 
 #python -u gen_inference_samples.py model=qwen18 model.archive=baseline_sft_qwen18 exp_name=eval_baseline_sft_qwen18
 #python -u gen_inference_samples.py model=qwen18 model.archive=extend_sft_qwen18 exp_name=eval_extend_sft_qwen18

@@ -350,7 +350,7 @@ class BasicTrainer(object):
             chosen = 'chosen'
         else:
             chosen = self.config.train_supervise
-
+        argmax_token=np.array([0]) # dummy variable for the stupid bug, ugly but useful!!!
         if train:
             if loss_config.name in {'dpo', 'ipo'} and not force_sft:
                 policy_chosen_logps, policy_rejected_logps = self.concatenated_forward(self.policy, batch)
@@ -402,8 +402,7 @@ class BasicTrainer(object):
                 all_devices_losses.cpu().numpy().tolist() 
             loss_mean = losses.mean()
         else:
-            if prob_set is not None:
-                argmax_token=np.array([0])
+            if prob_set is not None: 
                 with torch.no_grad():
                     for k in self.prob_dicts:
                         policy_predict_logtis = self.policy(
@@ -459,7 +458,6 @@ class BasicTrainer(object):
                 for k, v in all_eval_metrics.items():
                     tmp.append(v)
                 logp_npy = np.array(tmp)
-                #breakpoint()
         return logp_npy, all_argmax_token
                 
     def evaluation_get_response(self, prob_set='prob_train_gen'):
@@ -526,7 +524,6 @@ class BasicTrainer(object):
             if self.example_counter % self.config.eval_every == 0 and (self.example_counter > 0 or self.config.do_first_eval):
                 rank0_print(f'Running evaluation after {self.example_counter} ' + 'train examples')
                 logp_npy, argmax_npy = self.evaluation(prob_set='prob_train')  # [B,1] and [B, M]
-                #breakpoint()
                 if self.rank==0:
                     logp_npy_all.append(logp_npy)
                     argmax_npy_all.append(argmax_npy)
