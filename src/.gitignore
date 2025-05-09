@@ -1,6 +1,6 @@
 outputs/
-bashes/logs/*
-src/exp_results/*
+bashes/logs/
+src/exp_results/
 *.pt
 # Byte-compiled / optimized / DLL files
 __pycache__/
