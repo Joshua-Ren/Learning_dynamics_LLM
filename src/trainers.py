@@ -411,15 +411,17 @@ class BasicTrainer(object):
                         ).logits.detach().to(torch.float32)
                         policy_predict_logps, policy_argmax_logps = _get_batch_logps(policy_predict_logtis, batch[f'{k}_labels'],average_log_prob=False)
                         del policy_predict_logtis
-                        metrics[f'logps_{train_test}_{prob_set}/{k}'] = \
-                            policy_predict_logps.cpu().numpy().tolist()
-                        metrics[f'argmax_prob_logits'] = policy_argmax_logps[0].cpu().numpy().tolist()
-                        metrics[f'except_argmax_prob_logits'] = policy_argmax_logps[1].cpu().numpy().tolist()
                         metrics[f'{k}_A_o'] = policy_argmax_logps[2].cpu().numpy().tolist()
-                        metrics[f'p_e'] = policy_argmax_logps[3].cpu().numpy().tolist()
-                        metrics[f'energy'] = policy_argmax_logps[4].cpu().numpy().tolist()
-                        argmax_token = policy_argmax_logps[5].squeeze().cpu().numpy()  # A [B, M] array that track the argmax of each token in response
-                                                                                       # Annoying, remember to use validation_bath = 1 to get correct thing
+                        if k=='chosen':
+                            metrics[f'logps_{train_test}_{prob_set}/{k}'] = \
+                                policy_predict_logps.cpu().numpy().tolist()
+                            metrics[f'argmax_prob_logits'] = policy_argmax_logps[0].cpu().numpy().tolist()
+                            metrics[f'except_argmax_prob_logits'] = policy_argmax_logps[1].cpu().numpy().tolist()
+                            
+                            metrics[f'p_e'] = policy_argmax_logps[3].cpu().numpy().tolist()
+                            metrics[f'energy'] = policy_argmax_logps[4].cpu().numpy().tolist()
+                            argmax_token = policy_argmax_logps[5].squeeze().cpu().numpy()  # A [B, M] array that track the argmax of each token in response
+                                                                                        # Annoying, remember to use validation_bath = 1 to get correct thing
             loss_mean = 0
         return loss_mean, metrics, argmax_token
 

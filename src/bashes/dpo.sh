@@ -1,6 +1,6 @@
 #!/bin/bash
 #SBATCH --account=rrg-dsuth
-#SBATCH --gres=gpu:v100l:4              # Number of GPU(s) per node
+#SBATCH --gres=gpu:v100l:1              # Number of GPU(s) per node
 #SBATCH --cpus-per-task=4         # CPU cores/threads
 #SBATCH --mem=32000M               # memory per node
 #SBATCH --time=2-00:00            # time (DD-HH:MM)
@@ -14,7 +14,7 @@ module load python/3.11 StdEnv/2023 cudacore/.12.2.2 arrow/14.0.0
 source /home/joshua52/projects/def-dsuth/joshua52/env_llm/bin/activate
 
 # 3. Go to the correct path
-cd /home/joshua52/projects/def-dsuth/joshua52/finetuning_dynamics/src
+cd /home/joshua52/projects/def-dsuth/joshua52/Learning_dynamics_LLM/src
 
 # -------- One GPU is fine
 #python -u train.py loss=dpo loss.beta=0.1 model=pythia410m exp_name=dpo_pythia410m_sft2000 trainer=BasicTrainer n_epochs=4
@@ -40,4 +40,5 @@ cd /home/joshua52/projects/def-dsuth/joshua52/finetuning_dynamics/src
 #python -u train.py loss=dpo loss.beta=0.1 model=pythia28 exp_name=ultrafb_dpo_pythia28 datasets=ultrafb trainer=BasicTrainer n_epochs=6 eval_batch_size=2 n_examples=40000 eval_every=500 save_ckp=false
 
 # python -u train.py loss=dpo loss.beta=0.1 model=qwen18 exp_name=ultrafb_baseline_dpo_qwen18 datasets=ultrafb n_epochs=6 n_examples=30000 model.archive=ultrafb_baseline_sftep2_qwen18 save_ckp=true eval_every=1000
-python -u train.py loss=dpo loss.beta=0.1 model=qwen18 exp_name=ultrafb_extend_dpo_qwen18_sftep4 datasets=ultrafb n_epochs=6 n_examples=30000 model.archive=ultrafb_extend_sftep4_qwen18 save_ckp=true eval_every=1000
+python -u train.py loss=dpo loss.beta=0.1 model=qwen exp_name=qwen05_baseline_dpo_checkbug_5e7 trainer=BasicTrainer n_epochs=8 n_examples=40000 fine_evaluation=true batch_size=2
+#python -u train.py loss=dpo loss.beta=0.1 model=qwen exp_name=qwen05_baseline_dpo_checkbug_5e7 trainer=BasicTrainer n_epochs=8 n_examples=40000 fine_evaluation=true batch_size=2
