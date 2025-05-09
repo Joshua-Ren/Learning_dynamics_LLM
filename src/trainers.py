@@ -412,9 +412,9 @@ class BasicTrainer(object):
                         policy_predict_logps, policy_argmax_logps = _get_batch_logps(policy_predict_logtis, batch[f'{k}_labels'],average_log_prob=False)
                         del policy_predict_logtis
                         metrics[f'{k}_A_o'] = policy_argmax_logps[2].cpu().numpy().tolist()
+                        metrics[f'logps_{train_test}_{prob_set}/{k}'] = \
+                            policy_predict_logps.cpu().numpy().tolist()
                         if k=='chosen':
-                            metrics[f'logps_{train_test}_{prob_set}/{k}'] = \
-                                policy_predict_logps.cpu().numpy().tolist()
                             metrics[f'argmax_prob_logits'] = policy_argmax_logps[0].cpu().numpy().tolist()
                             metrics[f'except_argmax_prob_logits'] = policy_argmax_logps[1].cpu().numpy().tolist()
                             

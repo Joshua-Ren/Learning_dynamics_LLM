@@ -40,5 +40,5 @@ cd /home/joshua52/projects/def-dsuth/joshua52/Learning_dynamics_LLM/src
 #python -u train.py loss=dpo loss.beta=0.1 model=pythia28 exp_name=ultrafb_dpo_pythia28 datasets=ultrafb trainer=BasicTrainer n_epochs=6 eval_batch_size=2 n_examples=40000 eval_every=500 save_ckp=false
 
 # python -u train.py loss=dpo loss.beta=0.1 model=qwen18 exp_name=ultrafb_baseline_dpo_qwen18 datasets=ultrafb n_epochs=6 n_examples=30000 model.archive=ultrafb_baseline_sftep2_qwen18 save_ckp=true eval_every=1000
-python -u train.py loss=dpo loss.beta=0.1 model=qwen exp_name=qwen05_baseline_dpo_checkbug_5e7 trainer=BasicTrainer n_epochs=8 n_examples=40000 fine_evaluation=true batch_size=2
 #python -u train.py loss=dpo loss.beta=0.1 model=qwen exp_name=qwen05_baseline_dpo_checkbug_5e7 trainer=BasicTrainer n_epochs=8 n_examples=40000 fine_evaluation=true batch_size=2
+python -u train.py loss=dpo loss.beta=0.1 model=pythia410m exp_name=pythia410m_baseline_dpo_checkbug_5e7 trainer=BasicTrainer n_epochs=8 n_examples=40000 fine_evaluation=true batch_size=2
