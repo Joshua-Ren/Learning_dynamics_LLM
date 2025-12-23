@@ -520,6 +520,23 @@ class BasicTrainer(object):
         last_log = None
         logp_npy_all = []
         argmax_npy_all = []
+
+        # Epoch-based checkpointing support
+        save_epochs = getattr(self.config, 'save_epochs', None)  # e.g., [2, 4, 6]
+        if save_epochs is not None:
+            if isinstance(save_epochs, str):
+                save_epochs = [int(e) for e in save_epochs.split(',')]
+            else:
+                save_epochs = list(save_epochs)
+            saved_epochs = set()
+            rank0_print(f'Will save checkpoints at epochs: {save_epochs}')
+
+        # Calculate examples per epoch (approximate, based on dataset size)
+        # We need to track this to know when epochs complete
+        current_epoch = 0
+        epoch_example_counter = 0
+        examples_per_epoch = self.config.n_examples // self.config.n_epochs if self.config.n_epochs else self.config.n_examples
+
         # reload_ref_required = True
         for batch in self.train_iterator:
             #### BEGIN EVALUATION ####
@@ -571,6 +588,21 @@ class BasicTrainer(object):
 
             self.batch_counter += 1
             self.example_counter += self.config.batch_size
+            epoch_example_counter += self.config.batch_size
+
+            # Check if we've completed an epoch and need to save
+            if examples_per_epoch > 0 and epoch_example_counter >= examples_per_epoch:
+                current_epoch += 1
+                epoch_example_counter = 0
+                rank0_print(f'Completed epoch {current_epoch}')
+
+                # Save checkpoint if this epoch is in save_epochs
+                if save_epochs is not None and current_epoch in save_epochs and current_epoch not in saved_epochs:
+                    saved_epochs.add(current_epoch)
+                    epoch_save_path = os.path.join(self.config.save_path, f'epoch_{current_epoch}')
+                    os.makedirs(epoch_save_path, exist_ok=True)
+                    rank0_print(f'Saving checkpoint for epoch {current_epoch} to {epoch_save_path}')
+                    self.save(epoch_save_path)
 
             if last_log is None or time.time() - last_log > \
                 self.config.minimum_log_interval_secs:

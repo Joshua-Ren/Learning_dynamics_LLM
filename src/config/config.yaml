@@ -33,6 +33,10 @@ wandb:
   project: "P5_5_dynamics"
 
 save_ckp: false
+
+# Epochs at which to save intermediate checkpoints (comma-separated or list)
+# e.g., save_epochs: "2,4,6" or save_epochs: [2, 4, 6]
+save_epochs: null
 # to create the local run directory and cache models/datasets,
 #   we will try each of these directories in order; if none exist,
 #   we will create the last one and use it
